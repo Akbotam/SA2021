@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+spec:
+  tls:
+  - hosts: 
+    - sa.homework
+    secretName: myapp-secret-tls
+  rules:
+  - host: sa.homework
+    http: 
+      paths: 
+      - path: /
+        backend:
+          serviceName: frontend-service
+          servicePort: 8081
+  - host: api.sa.homework
+    http: 
+      paths: 
+      - path: /
+        backend:
+          serviceName: backend-service
+          servicePort: 8082
