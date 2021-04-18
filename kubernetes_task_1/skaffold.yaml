@@ -1,0 +1,12 @@
+apiVersion: skaffold/v2alpha4
+kind: Config
+metadata: 
+  name: skaffold
+build:
+  artifacts: 
+  - image: akbota18/myapp1
+    context: myapp1
+deploy:
+  kubectl:
+    manifests: 
+    - deployment.yaml

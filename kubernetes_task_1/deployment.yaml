@@ -1,0 +1,52 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: myapp1-service
+spec:
+  selector:
+    app: myapp1
+  ports:
+    - protocol: "TCP"
+      # Port accessible inside cluster
+      port: 8081
+      # Port to forward to inside the pod
+      targetPort: 8000
+      # Port accessible outside cluster
+  type: ClusterIP
+ 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp1-deployment
+  labels:
+    app: myapp1
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: myapp1
+  template:
+    metadata:
+      labels:
+        app: myapp1
+    spec:
+      containers:
+        - name: myapp1
+          image: akbota18/myapp1:v1.0.0
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              port: 8000
+              path: /health
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet: 
+              port: 8000
+              path: /health
+            initialDelaySeconds: 10
+            periodSeconds: 5
