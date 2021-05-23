@@ -1,0 +1,7 @@
+1)  The command to install the database from helm, along with the values.yaml file:
+helm upgrade --install restfulcrud-chart ./restfulcrud-chart
+
+2) kubectl apply -f command, which runs Kubernetes manifests in the correct order:
+kubectl apply -f app-configs.yaml -f deployment.yaml
+
+3) kubectl port-forward "backend-service pod name" 8000:8000
