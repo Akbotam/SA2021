@@ -1,0 +1,55 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: backend
+  name: backend-service
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    app: backend
+status:
+  loadBalancer: {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: backend
+    spec:
+      containers:
+      - image: akbota18/backend:v1
+        name: service-back
+        ports:
+          - containerPort: 8000
+        volumeMounts:
+          - mountPath: /var/log/
+            name: backend
+        command: ["/bin/sh", "-c"]
+        args:
+          - apt-get update;
+            apt-get -y install vim;
+            python manage.py makemigrations employees;
+            python manage.py migrate;
+            gunicorn --bind 0.0.0.0:8000 --workers 3 service_back.wsgi:application
+      volumes:
+        - name: backend
+          hostPath:
+            path: /var/log/
