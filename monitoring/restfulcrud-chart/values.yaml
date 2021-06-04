@@ -1,0 +1,19 @@
+replicaCount: 1
+
+postgres:
+  name: postgres
+  container:
+    image: postgres
+    port: 5432
+  replicaCount: 1
+  volume:
+    name: postgres-database-storage
+    pvc:
+      name: postgres-pv-claim
+    mountPath: /var/lib/postgresql/data
+  config:
+    name: postgres-config
+
+service:
+  type: NodePort
+  port: 5432

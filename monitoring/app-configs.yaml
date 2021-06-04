@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myapp-config
+data:
+  SECRET_KEY: django-insecure-v9do=m2!z6jvu-k@rnah7l1otyn0u1(6i+s)!5!ia6llb3pgci
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: myapp-secret
+type: Opaque
+data:
+  POSTGRES_DB: cG9zdGdyZXM=
+  POSTGRES_PASSWORD: dGVzdDEyMw==
+  POSTGRES_USER: cG9zdGdyZXM=
+  POSTGRES_HOST: cG9zdGdyZXM=
